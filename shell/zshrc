@@ -36,6 +36,11 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(fabric brew node npm history git-flow zsh-syntax-highlighting)
 
+# NVM configuration
+mkdir -p ~/.nvm
+export NVM_DIR="$HOME/.nvm"
+. "$(brew --prefix nvm)/nvm.sh"
+
 # User configuration
 
 # Load the shell dotfiles
