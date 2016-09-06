@@ -62,4 +62,4 @@ source $ZSH/oh-my-zsh.sh
 . <(npm completion)
 
 # fortune
-fortune | cowsay -f stegosaurus | lolcat
+fortune computers | cowsay -f stegosaurus | lolcat
