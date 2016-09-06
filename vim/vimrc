@@ -28,6 +28,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'skwp/vim-colors-solarized'
 Plugin 'mileszs/ack.vim'
+Plugin 'cyphactor/vim-open-alternate'
 
 call vundle#end()
 
@@ -41,7 +42,6 @@ silent! colorscheme solarized
 set noswapfile
 set nobackup
 set nowb
-
 
 " ================ Indentation ======================
 
@@ -85,3 +85,6 @@ nmap ,ag :Ack ""<Left>
 " ,oq to open it back up (rare)
 nmap <silent> ,qc :cclose<CR>
 nmap <silent> ,qo :copen<CR>
+
+" Open vim-open-alternate on a new vsplit window
+nmap <leader>. :vs<Cr> :OpenAlternate<Cr>
