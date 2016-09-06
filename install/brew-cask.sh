@@ -11,6 +11,7 @@ apps=(
     google-chrome
     spotify
     vlc
+    licecap
 )
 
 brew cask install "${apps[@]}"
