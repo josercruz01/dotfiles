@@ -2,7 +2,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Explicitly configured $PATH variable
-export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/"
+export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/:${HOME}/bin"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
