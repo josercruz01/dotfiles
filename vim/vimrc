@@ -25,6 +25,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'skwp/vim-colors-solarized'
+Plugin 'mileszs/ack.vim'
 
 call vundle#end()
 
@@ -62,6 +63,17 @@ set hlsearch        " Highlight searches by default
 set ignorecase      " Ignore case when searching...
 set smartcase       " ...unless we type a capital
 
+" Configure the_silver_searcher
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " ================ Mappings ========================
 noremap <leader>t :CtrlP<Cr>
 
+" Open the Ack command and place the cursor into the quotes
+nmap ,ag :Ack ""<Left>
+
+" ,oq to open it back up (rare)
+nmap <silent> ,qc :cclose<CR>
+nmap <silent> ,qo :copen<CR>
