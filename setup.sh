@@ -266,6 +266,22 @@ ln -s ~/dotfiles/zsh/themes/jose.zsh-theme $HOME/.oh-my-zsh/themes
 
 
 ###############################################################################
+# Vim and neovim
+###############################################################################
+
+# Install vim
+~/dotfiles/vim/install.sh
+
+# Configure installation
+ln -fs ~/dotfiles/vim/vimfiles ~/.config/nvim
+ln -fs ~/dotfiles/vim/vimfiles ~/.vim
+ln -fs ~/dotfiles/vim/vimrc ~/.config/nvim/init.vim
+ln -fs ~/dotfiles/vim/vimrc ~/.vimrc
+
+nvim +PluginInstall +qall
+
+
+###############################################################################
 # Terminal & iTerm 2                                                          #
 ###############################################################################
 

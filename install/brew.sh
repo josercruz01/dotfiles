@@ -52,6 +52,7 @@ apps=(
     homebrew/completions/brew-cask-completion
     homebrew/dupes/grep
     homebrew/dupes/openssh
+    neovim/neovim/neovim
     autojump
     python
     the_silver_searcher
