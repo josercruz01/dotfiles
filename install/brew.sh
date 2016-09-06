@@ -44,7 +44,6 @@ apps=(
     coreutils
     findutils
     fortune
-    ponysay
     git
     git-extras
     gnu-sed --with-default-names
@@ -57,6 +56,7 @@ apps=(
     python
     the_silver_searcher
     wget
+    cowsay
 )
 
 brew install "${apps[@]}"

@@ -61,5 +61,5 @@ source $ZSH/oh-my-zsh.sh
 # npm tab completion
 . <(npm completion)
 
-# fortune: brew install fortune ponysay
-fortune | ponysay
+# fortune
+fortune | cowsay -f stegosaurus | lolcat
