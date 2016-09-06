@@ -82,3 +82,6 @@ alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && 
 
 # zshrc config
 alias reload="source ~/.zshrc && echo 'Shell config reloaded from ~/.zshrc'"
+
+# vim/neovim
+alias vim="nvim"
