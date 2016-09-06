@@ -206,9 +206,9 @@ main() {
 
   done
 
-  # Copy batcharge
+  # Copy binaries
   ln -fs $HOME/dotfiles/bin $HOME
-  chmod +rwx $HOME/bin/batcharge.py
+  chmod +rwx $HOME/bin/*
 }
 
 install_zsh () {
