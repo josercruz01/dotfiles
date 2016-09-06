@@ -24,8 +24,14 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'skwp/vim-colors-solarized'
 
 call vundle#end()
+
+" ================ Styles ==============
+
+set background=dark
+silent! colorscheme solarized
 
 " ================ Turn Off Swap Files ==============
 
