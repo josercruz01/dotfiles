@@ -7,6 +7,7 @@ set number                      "Line numbers are good
 set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
 set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -63,9 +64,15 @@ set hlsearch        " Highlight searches by default
 set ignorecase      " Ignore case when searching...
 set smartcase       " ...unless we type a capital
 
-" Configure the_silver_searcher
+" Configure the_silver_searcher for ack
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
+endif
+
+" Configure the_silver_searcher for ctrlp (speed boost)
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 " ================ Mappings ========================
