@@ -9,22 +9,16 @@ set showcmd                     "Show incomplete cmds down the bottom
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler                       "Show cursor column/row information
-
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
-" http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
-" Change leader to a comma because the backslash is too far away
-" That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all 
-" the plugins.
 let mapleader=","
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'jistr/vim-nerdtree-tabs.git'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'skwp/vim-colors-solarized'
 Plugin 'mileszs/ack.vim'
@@ -58,6 +52,25 @@ filetype plugin indent on    " required for vundle
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 
+" ================ Nerdtree ===========================
+"
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+let g:NERDTreeWinSize = 30
+
+" Nerdtree tabs
+let g:nerdtree_tabs_open_on_gui_startup = 0
+let g:nerdtree_tabs_focus_on_files = 1
+
+" If currently on a file opens NERDTree otherwise toggle it
+function! OpenNerdTree()
+  if &modifiable && strlen(expand('%')) > 0
+    NERDTreeFind
+  else
+    NERDTreeToggle
+  endif
+endfunction
+
 " ================ Search ===========================
 
 set incsearch       " Find the next match as we type the search
@@ -88,3 +101,6 @@ nmap <silent> ,qo :copen<CR>
 
 " Open vim-open-alternate on a new vsplit window
 nmap <leader>. :vs<Cr> :OpenAlternate<Cr>
+
+" Open Nerdtree with Ctrl-\
+nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
