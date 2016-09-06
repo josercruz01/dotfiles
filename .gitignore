@@ -1,8 +1,8 @@
-vimfiles/backups
-vimfiles/view
-vimfiles/.netrwhist
-vimfiles/tmp
-vimfiles/spell
-vimfiles/bundle
-vimfiles/sessions
+vim/vimfiles/backups
+vim/vimfiles/view
+vim/vimfiles/.netrwhist
+vim/vimfiles/tmp
+vim/vimfiles/spell
+vim/vimfiles/bundle
+vim/vimfiles/sessions
 .netrwhist
