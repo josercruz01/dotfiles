@@ -1,7 +1,0 @@
-#!/bin/bash
-set -x
-port="${1-3000}"
-if [ "${port}" -lt 10 ];then
-  port="300${port}"
-fi
-./bin/rails s -p "${port}"

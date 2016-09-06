@@ -4,3 +4,12 @@
 function f() {
   find . -name "$1" 2>&1 | grep -v 'Permission denied'
 }
+
+# Starts a rails server on the port 300{ARG} or port 3000 if no ARG
+function rr() {
+  port="${1-3000}"
+  if [ "${port}" -lt 10 ];then
+    port="300${port}"
+  fi
+  bundle exec rails s -p "${port}"
+}

@@ -87,7 +87,9 @@ alias reload="source ~/.zshrc && echo 'Shell config reloaded from ~/.zshrc'"
 alias vim="nvim"
 
 # edit dotfiles
+alias dotcd="cd ~/dotfiles"
 alias dotedit="vim ~/dotfiles"
+alias dotinstall="~/dotfiles/setup.sh"
 
 # rails
 alias be="bundle exec"
