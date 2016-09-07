@@ -67,14 +67,6 @@ $HOME/dotfiles/install/brew-cask.sh
 $HOME/dotfiles/install/npm.sh
 
 ###############################################################################
-# Git                                                                         #
-###############################################################################
-
-# github.com/jamiew/git-friendly
-# the `push` command which copies the github compare URL to my clipboard is heaven
-bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
-
-###############################################################################
 # OSX defaults                                                                #
 # https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
 ###############################################################################
