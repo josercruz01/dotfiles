@@ -51,6 +51,12 @@ if ! xcode-select --print-path &> /dev/null; then
 
 fi
 
+###############################################################################
+# OSX defaults                                                                #
+# https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
+###############################################################################
+
+$HOME/dotfiles/osx/set-defaults.sh
 
 ###############################################################################
 # Homebrew                                                                    #
@@ -59,7 +65,6 @@ fi
 $HOME/dotfiles/install/brew.sh
 $HOME/dotfiles/install/brew-cask.sh
 
-
 ###############################################################################
 # Node                                                                        #
 ###############################################################################
@@ -67,14 +72,7 @@ $HOME/dotfiles/install/brew-cask.sh
 $HOME/dotfiles/install/npm.sh
 
 ###############################################################################
-# OSX defaults                                                                #
-# https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
-###############################################################################
-
-sh osx/set-defaults.sh
-
-###############################################################################
 # Symlinks to link dotfiles into ~/                                           #
 ###############################################################################
 
-./setup.sh
+$HOME/dotfiles/setup.sh

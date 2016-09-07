@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #
 # Reasonably sets OS X defaults. My sources:
 #  - https://github.com/skwp/dotfiles/blob/master/bin/osx
@@ -51,13 +50,6 @@ defaults write com.google.Chrome.plist AppleEnableSwipeNavigateWithScrolls -bool
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
-
-# Disable some menu bar icons: Time Machine, Volume and User
-for domain in ~/Library/Preferences/ByHost/com.apple.stytemuiserver.*; do
-  "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-  "/System/Library/CoreServices/Menu Extras/Volume.menu" \
-  "/System/Library/CoreServices/Menu Extras/User.menu"
-done
 
 ###############################################################################
 # Activity Monitor                                                            #
@@ -151,13 +143,6 @@ defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
-
-###############################################################################
-# SSD
-###############################################################################
-
-# Disable the sudden motion sensor as it’s not useful for SSDs
-sudo pmset -a sms 0
 
 ###############################################################################
 # Dock
