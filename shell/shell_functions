@@ -2,7 +2,7 @@
 
 # find shorthand
 function f() {
-  find . -name "$1" 2>&1 | grep -v 'Permission denied'
+  find . -name "*$1*" 2>&1 | grep -v 'Permission denied'
 }
 
 # Starts a rails server on the port 300{ARG} or port 3000 if no ARG
@@ -12,4 +12,14 @@ function rr() {
     port="300${port}"
   fi
   bundle exec rails s -p "${port}"
+}
+
+pr() {
+  branch=$(git symbolic-ref HEAD | sed 's!refs\/heads\/!!')
+  remote=$(git remote -v \
+    | grep -m 1 "(push)" \
+    | grep origin \
+    | sed -e "s/.*github\.com[:\/]\(.*\) (push).*/\1/" \
+    | sed "s/.git//")
+  open "https://github.com/${remote}/pull/new/${branch}"
 }
