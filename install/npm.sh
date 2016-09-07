@@ -40,6 +40,7 @@ packages=(
     git-open
     trash-cli
     yo
+    eslint
 )
 
 npm install -g "${packages[@]}"

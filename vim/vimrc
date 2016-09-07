@@ -23,6 +23,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'skwp/vim-colors-solarized'
 Plugin 'mileszs/ack.vim'
 Plugin 'cyphactor/vim-open-alternate'
+Plugin 'neomake/neomake'
 
 call vundle#end()
 
@@ -36,6 +37,34 @@ silent! colorscheme solarized
 set noswapfile
 set nobackup
 set nowb
+
+" ================ Neomake ======================
+
+" Uncomment to debug neomake. Output will be placed in the logfile.
+" let g:neomake_verbose=3
+" let g:neomake_logfile='/tmp/neomake.log'
+
+" Open error list after running neomake
+let g:neomake_open_list = 2
+
+" Use custom characters for errors and warning markers
+let g:neomake_warning_sign = { 'text': '✹', 'texthl': 'WarningMsg', }
+let g:neomake_error_sign = { 'text': '✖', 'texthl': 'ErrorMsg', }
+
+" Use eslint from the context of the npm project.
+" This allows you to install custom linters and compose your eslintrc.
+let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+let g:neomake_javascript_eslint_maker = {
+    \ 'args': ['--ignore-path', '.gitignore', '-f', 'compact'],
+    \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+    \ '%W%f: line %l\, col %c\, Warning - %m'
+    \ }
+
+" Enabled linters
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+" Run neomake on every file change
+autocmd! BufWritePost * Neomake
 
 " ================ Indentation ======================
 
@@ -104,3 +133,19 @@ nmap <leader>. :vs<Cr> :OpenAlternate<Cr>
 
 " Open Nerdtree with Ctrl-\
 nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
+
+" Location list mappings (for Neomake)
+nnoremap <leader>ln :lne<CR>       " Go to next item in location list
+nnoremap <leader>lp :lp<CR>        " Go to previous in location list
+nnoremap <leader>lc :lclose<CR>    " Close the location window
+nnoremap <leader>lo :lopen<CR>     " Open the location window
+
+
+" ================ Custom .vimrc.local ========================
+" Loads a custom vimrc file if it exists.
+" It will check if the file '~/.vimrc.local` exists and will source it.
+" Useful for temporary settings or settings you don't wan to commit.
+
+if filereadable(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
