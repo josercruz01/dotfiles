@@ -61,5 +61,8 @@ source $ZSH/oh-my-zsh.sh
 # npm tab completion
 . <(npm completion)
 
+# Initialize fasd
+eval "$(fasd --init auto)"
+
 # fortune
 fortune computers | cowsay -f stegosaurus | lolcat

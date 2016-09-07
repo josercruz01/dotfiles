@@ -38,7 +38,7 @@ brew upgrade --all
 # which version I'm using.
 
 apps=(
-    rbenv 
+    rbenv
     nvm
     bash-completion2
     coreutils
@@ -57,6 +57,7 @@ apps=(
     the_silver_searcher
     wget
     cowsay
+    fasd
 )
 
 brew install "${apps[@]}"
