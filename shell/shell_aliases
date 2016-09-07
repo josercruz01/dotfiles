@@ -9,7 +9,6 @@ alias sudo="sudo "
 # Shortcuts
 alias e="$EDITOR"
 alias g="git"
-alias rm="trash"
 
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
@@ -21,7 +20,7 @@ alias -- -="cd -"
 
 # mv, rm, cp, gunzip
 alias mv='mv -v'
-alias rm='rm -i -v'
+alias rm='trash'
 alias cp='cp -v'
 
 alias cask='brew cask'
@@ -90,6 +89,8 @@ alias vim="nvim"
 alias dotcd="cd ~/dotfiles"
 alias dotedit="vim ~/dotfiles"
 alias dotinstall="~/dotfiles/setup.sh"
+alias dotcommit="cd ~/dotfiles;git commit -p"
+alias dotpush="cd ~/dotfiles;git push"
 
 # rails
 alias be="bundle exec"

@@ -33,6 +33,7 @@ npm config set save-exact = true
 # Globally install with npm
 # git-open: to open the GitHub page or website for a repository.
 # trash: the safe `rm` alternative
+# diff-so-fancy: colorful git diff
 packages=(
     diff-so-fancy
     gulp
