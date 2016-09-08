@@ -11,11 +11,21 @@ The setup script is smart enough to back up your existing dotfiles into a `~/dot
 
 So, to recap, the install script will:
 
-- back up any existing dotfiles in your home directory to `~/dotfiles_old/`
 - create symlinks to the dotfiles in `~/dotfiles/` in your home directory
 - clone the `oh-my-zsh` repository from my GitHub (for use with `zsh`)
 - check to see if `zsh` is installed, if it isn't, try to install it
 - if zsh is installed, run a `chsh -s` to set it as the default shell
+
+Environments included in these dotfiles:
+
+* neovim
+  * With NERDTree, CtrlP, Neomake, Ack/Ag (the silver searcher), etc
+* tmux
+* node
+  * nvm
+* brew
+* brew cask
+* many more
 
 ## Installation
 
