@@ -58,6 +58,7 @@ apps=(
     wget
     cowsay
     fasd
+    tmux
 )
 
 brew install "${apps[@]}"

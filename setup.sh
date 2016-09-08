@@ -164,6 +164,7 @@ declare -a FILES_TO_SYMLINK=(
   'git/gitconfig'
   'git/gitignore'
 
+  'tmux/tmux.conf'
 )
 
 # FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin" # add in vim and the binaries
