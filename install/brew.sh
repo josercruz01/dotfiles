@@ -59,6 +59,7 @@ apps=(
     cowsay
     fasd
     tmux
+    thefuck
 )
 
 brew install "${apps[@]}"
