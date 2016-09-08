@@ -11,6 +11,7 @@ The setup script is smart enough to back up your existing dotfiles into a `~/dot
 
 So, to recap, the install script will:
 
+- back up any existing dotfiles in your home directory to `~/dotfiles_old/`
 - create symlinks to the dotfiles in `~/dotfiles/` in your home directory
 - clone the `oh-my-zsh` repository from my GitHub (for use with `zsh`)
 - check to see if `zsh` is installed, if it isn't, try to install it
