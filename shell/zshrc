@@ -59,6 +59,9 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
+# Enable tmuxinator completion
+source ~/.tmuxinator.completion.zsh
+
 # Source local extra (private) settings specific to machine if it exists
 [ -f ~/.zsh.local ] && source ~/.zsh.local
 

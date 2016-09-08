@@ -290,6 +290,14 @@ gem install bundler
 gem install lolcat
 
 ###############################################################################
+# tmuxinator
+###############################################################################
+
+gem install tmuxinator
+curl -o ~/.tmuxinator.completion.zsh \
+  https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh
+
+###############################################################################
 # Terminal & iTerm 2                                                          #
 ###############################################################################
 
