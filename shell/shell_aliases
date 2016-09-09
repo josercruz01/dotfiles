@@ -94,3 +94,6 @@ alias dotpush="cd ~/dotfiles;git push"
 
 # rails
 alias be="bundle exec"
+
+# tmux
+alias mst="mux start"

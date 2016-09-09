@@ -68,6 +68,9 @@ source ~/.tmuxinator.completion.zsh
 # npm tab completion
 . <(npm completion)
 
+# init rbenv
+eval "$(rbenv init -)"
+
 # thefuck
 eval "$(thefuck --alias fk)"
 
