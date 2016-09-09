@@ -96,4 +96,4 @@ alias dotpush="cd ~/dotfiles;git push"
 alias be="bundle exec"
 
 # tmux
-alias mst="mux start"
+alias muxs="mux start"
