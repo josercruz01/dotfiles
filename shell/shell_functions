@@ -23,3 +23,7 @@ pr() {
     | sed "s/.git//")
   open "https://github.com/${remote}/pull/new/${branch}"
 }
+
+function killport() {
+  kill -9 `lsof -i tcp:$1 | tail -1 | awk '{ print $2;}'`
+}
