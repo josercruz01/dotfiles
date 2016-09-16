@@ -24,6 +24,7 @@ Plugin 'skwp/vim-colors-solarized'
 Plugin 'mileszs/ack.vim'
 Plugin 'cyphactor/vim-open-alternate'
 Plugin 'neomake/neomake'
+Plugin 'christoomey/vim-tmux-navigator'
 
 call vundle#end()
 
