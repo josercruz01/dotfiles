@@ -6346,7 +6346,7 @@
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
-			<string>nicksp</string>
+			<string>josecruz</string>
 			<key>Non Ascii Font</key>
 			<string>SauceCodePowerline-Regular 15</string>
 			<key>Non-ASCII Anti Aliased</key>
@@ -6523,8 +6523,6 @@
 			<true/>
 			<key>Window Type</key>
 			<integer>1</integer>
-			<key>Working Directory</key>
-			<string>/Users/nicksp/Documents/Projects</string>
 		</dict>
 	</array>
 	<key>NoSyncTimeOfLastPromo</key>
@@ -6577,7 +6575,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/nicksp/dotfiles/iterm</string>
+	<string>/Users/josecruz/dotfiles/iterm</string>
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>QuitWhenAllWindowsClosed</key>
