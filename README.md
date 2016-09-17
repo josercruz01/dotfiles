@@ -1,6 +1,6 @@
 # Jose R Cruz's Dotfiles
 
-Collection of dotfiles and scripts I use for customizing OS X to my liking and setting up the software development tools I use on a day-to-day basis.
+Collection of dotfiles and scripts I use for customizing OS X to my liking and setting up the software development tools I use on a day to day basis.
 
 They should be cloned to your home directory so that the path is `~/dotfiles/`.
 
@@ -22,6 +22,7 @@ Environments included in these dotfiles:
 * neovim
   * With NERDTree, CtrlP, Neomake, Ack/Ag (the silver searcher), etc
 * tmux
+  * tmuxinator
 * node
   * nvm
 * brew
