@@ -57,7 +57,7 @@ OS X configuration by running the [set-defaults](osx/set-defaults.sh) script.
 
 ## Thanks
 
-I started by forking [Nick Plekhanov's Dotfiles](https://github.com/josercruz01/dotfiles) and then applied my changes on top of it.
+I started by forking [Nick Plekhanov's Dotfiles](https://github.com/nicksp/dotfiles) and then applied my changes on top of it.
 
 ## License
 
