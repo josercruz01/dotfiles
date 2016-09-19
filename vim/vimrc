@@ -25,6 +25,9 @@ Plugin 'mileszs/ack.vim'
 Plugin 'cyphactor/vim-open-alternate'
 Plugin 'neomake/neomake'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'jgdavey/tslime.vim'
+
 
 call vundle#end()
 
@@ -130,6 +133,7 @@ endif
 
 " ================ Mappings ========================
 noremap <leader>t :CtrlP<Cr>
+noremap <leader>b :CtrlPBuffer<Cr>
 
 
 " Open the Ack command and place the cursor into the quotes
@@ -155,6 +159,15 @@ nnoremap <leader>cn :cn<CR>        " Go to next item in quick list
 nnoremap <leader>cp :cp<CR>        " Go to previous in quick list
 nnoremap <leader>cc :cclose<CR>    " Close the quick list window
 nnoremap <leader>co :copen<CR>     " Open the quick list window
+
+" This tells vim-rspec to use Send_to_Tmux to run the selected specs.
+let g:rspec_command = 'call Send_to_Tmux("bundle exec spring rspec {spec}\n")'
+
+" vim-rspec mappings
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
 
 " ================ Custom .vimrc.local ========================
 " Loads a custom vimrc file if it exists.
