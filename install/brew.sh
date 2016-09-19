@@ -60,6 +60,9 @@ apps=(
     fasd
     tmux
     thefuck
+    gnupg
+    gpg-agent
+    pinentry-mac
 )
 
 brew install "${apps[@]}"

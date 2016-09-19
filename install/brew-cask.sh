@@ -12,7 +12,6 @@ apps=(
     spotify
     vlc
     licecap
-    gpgtools
 )
 
 brew cask install --require-sha "${apps[@]}"

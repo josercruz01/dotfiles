@@ -173,8 +173,13 @@ declare -a FILES_TO_SYMLINK=(
 
 for i in ${FILES_TO_SYMLINK[@]}; do
   echo "Moving any existing dotfiles from ~ to $dir_backup"
-  mv ~/.${i##*/} ~/dotfiles_old/
+  mv ~/.${i##*/} ${dir_backup}
 done
+
+# Backup gpg dotfiles
+mkdir -p ${dir_backup}/.gnupg
+mv ~/.gnupg/gpg.conf ${dir_backup}/.gnupg
+mv ~/.gnupg/gpg-agent.conf ${dir_backup}/.gnupg-agent
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -206,6 +211,11 @@ main() {
     fi
 
   done
+
+  # Handle gpg dotfiles manually since they live inside ~/.gnupg folder
+  mkdir -p ~/.gnupg
+  ln -s "$(pwd)/gnupg/gpg.conf" ~/.gnupg/gpg.conf
+  ln -s "$(pwd)/gnupg/gpg-agent.conf" ~/.gnupg/gpg-agent.conf
 
   # Copy binaries
   ln -fs $HOME/dotfiles/bin $HOME
