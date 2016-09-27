@@ -95,7 +95,7 @@ filetype plugin indent on    " required for vundle
 set list listchars=tab:\ \ ,trail:·
 
 " ================ Nerdtree ===========================
-"
+let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeWinSize = 30
