@@ -63,6 +63,9 @@ apps=(
     gnupg
     gpg-agent
     pinentry-mac
+
+    # Fix clipboard error with vim+tmux and OSX Sierra (http://bit.ly/2duAFvS)
+    reattach-to-user-namespace
 )
 
 brew install "${apps[@]}"

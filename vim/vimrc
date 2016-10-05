@@ -169,6 +169,10 @@ map <Leader>rs :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
 
+" ================ Fix copy/paste ========================
+" Fix clipboard error with vim+tmux and OSX Sierra (http://bit.ly/2duAFvS)
+set clipboard=unnamed
+
 " ================ Custom .vimrc.local ========================
 " Loads a custom vimrc file if it exists.
 " It will check if the file '~/.vimrc.local` exists and will source it.
