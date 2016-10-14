@@ -54,8 +54,10 @@ set nowb
 " ================ Neomake ======================
 
 " Uncomment to debug neomake. Output will be placed in the logfile.
-" let g:neomake_verbose=3
-" let g:neomake_logfile='/tmp/neomake.log'
+" Note: using verbose=3 will cause neomake to promp "Press ENTER to continue"
+" on every save.
+"let g:neomake_verbose=3
+"let g:neomake_logfile='/tmp/neomake.log'
 
 " Open error list after running neomake
 let g:neomake_open_list = 2
