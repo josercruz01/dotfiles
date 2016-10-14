@@ -165,11 +165,19 @@ nnoremap <leader>co :copen<CR>     " Open the quick list window
 " This tells vim-rspec to use Send_to_Tmux to run the selected specs.
 let g:rspec_command = 'call Send_to_Tmux("bundle exec spring rspec {spec}\n")'
 
-" vim-rspec mappings
+" ================ vim-rspec/tslime plugin mappings ========================
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+
+" Key mappings
 map <Leader>rt :call RunCurrentSpecFile()<CR>
 map <Leader>rs :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
+
+" Reset which window/pane runs the test
+nmap <Leader>rr <Plug>SetTmuxVars
+
 
 " ================ Fix copy/paste ========================
 " Fix clipboard error with vim+tmux and OSX Sierra (http://bit.ly/2duAFvS)
