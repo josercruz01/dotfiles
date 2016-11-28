@@ -32,15 +32,15 @@ Environments included in these dotfiles:
 ## Installation
 
 ```sh
-$ git clone https://github.com/josercruz01/dotfiles.git ~/.dotfiles
+$ git clone https://github.com/josercruz01/dotfiles.git ~/dotfiles
 $ cd ~/dotfiles
-$ chmod +x setup.sh
-$ ./setup.sh
+$ ./setup-new-machine.sh # First time. (installs brew, nvm, etc)
+$ ./setup.sh # You can run this anytime to update all dotfiles.
 ```
 
 ## Remotely install using curl
 
-Alternatively, you can install this into `~/.dotfiles` remotely without Git using curl:
+Alternatively, you can install this into `~/dotfiles` remotely without Git using curl:
 
 ```sh
 sh -c "`curl -fsSL https://raw.github.com/josercruz01/dotfiles/master/remote-setup.sh`"
