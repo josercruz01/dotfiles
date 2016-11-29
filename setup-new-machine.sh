@@ -51,6 +51,9 @@ if ! xcode-select --print-path &> /dev/null; then
 
 fi
 
+sudo chown $USER /usr/local
+sudo mod -R 755 /usr/local
+
 ###############################################################################
 # OSX defaults                                                                #
 # https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
