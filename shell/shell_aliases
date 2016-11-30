@@ -97,3 +97,6 @@ alias be="bundle exec"
 
 # tmux
 alias muxs="mux start"
+
+# sublime
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
