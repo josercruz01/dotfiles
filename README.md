@@ -32,11 +32,17 @@ Environments included in these dotfiles:
 ## Installation
 
 ```sh
-$ git clone https://github.com/josercruz01/dotfiles.git ~/dotfiles
-$ cd ~/dotfiles
-$ ./setup-new-machine.sh # First time. (installs brew, nvm, etc)
-$ ./setup.sh # You can run this anytime to update all dotfiles.
+git clone https://github.com/josercruz01/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./setup-new-machine.sh # First time. (installs brew, nvm, etc)
+./setup.sh # You can run this anytime to update all dotfiles.
 ```
+
+## Fonts installation
+
+The theme I use depend on these fonts: https://gist.github.com/qrush/1595572
+
+Just download and open them to install.
 
 ## Remotely install using curl
 
