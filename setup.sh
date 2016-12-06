@@ -1,13 +1,24 @@
 #!/bin/bash
 
-# This symlinks all the dotfiles to ~/
-# It also symlinks ~/bin for easy updating
+###############################################################################
+# Variable declaration
+###############################################################################
 
-# This is safe to run multiple times and will prompt you about anything unclear
+export DOTFILES_DIR
+export DOTFILES_BACKUP_DIR
+DOTFILES_DIR=~/dotfiles
+DOTFILES_BACKUP_DIR=~/dotfiles_old
 
-#
-# Utils
-#
+###############################################################################
+# Helper functions
+###############################################################################
+
+move() {
+  if [ -f $1 ]; then
+    mv "${1}" "${2}" && return 0
+  fi
+  return 0
+}
 
 answer_is_yes() {
   [[ "$REPLY" =~ ^[Yy]$ ]] \
@@ -15,15 +26,11 @@ answer_is_yes() {
     || return 1
 }
 
-ask() {
-  print_question "$1"
-  read
-}
-
 ask_for_confirmation() {
   print_question "$1 (y/n) "
   read -n 1
   printf "\n"
+  return 0
 }
 
 ask_for_sudo() {
@@ -38,6 +45,7 @@ ask_for_sudo() {
     sleep 60
     kill -0 "$$" || exit
   done &> /dev/null &
+  return 0
 
 }
 
@@ -45,15 +53,18 @@ cmd_exists() {
   [ -x "$(command -v "$1")" ] \
     && printf 0 \
     || printf 1
+  return 0
 }
 
 execute() {
   $1 &> /dev/null
   print_result $? "${2:-$1}"
+  return 0
 }
 
 get_answer() {
   printf "$REPLY"
+  return 0
 }
 
 get_os() {
@@ -68,6 +79,7 @@ get_os() {
   fi
 
   printf "%s" "$os"
+  return 0
 
 }
 
@@ -89,21 +101,25 @@ mkd() {
       execute "mkdir -p $1" "$1"
     fi
   fi
+  return 0
 }
 
 print_error() {
   # Print output in red
   printf "\e[0;31m  [✖] $1 $2\e[0m\n"
+  return 0
 }
 
 print_info() {
   # Print output in purple
   printf "\n\e[0;35m $1\e[0m\n\n"
+  return 0
 }
 
 print_question() {
   # Print output in yellow
   printf "\e[0;33m  [?] $1\e[0m"
+  return 0
 }
 
 print_result() {
@@ -113,36 +129,58 @@ print_result() {
 
   [ "$3" == "true" ] && [ $1 -ne 0 ] \
     && exit
+  return 0
 }
 
 print_success() {
   # Print output in green
   printf "\e[0;32m  [✔] $1\e[0m\n"
+  return 0
 }
 
+###############################################################################
+# XCode Command Line Tools                                                    #
+###############################################################################
 
-dir=~/dotfiles                        # dotfiles directory
-dir_backup=~/dotfiles_old             # old dotfiles backup directory
+if ! xcode-select --print-path &> /dev/null; then
 
-# Get current dir (so run this script from anywhere)
+  # Prompt user to install the XCode Command Line Tools
+  xcode-select --install &> /dev/null
 
-export DOTFILES_DIR
-DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Create dotfiles_old in homedir
-echo -n "Creating $dir_backup for backup of any existing dotfiles in ~..."
-mkdir -p $dir_backup
-echo "done"
+  # Wait until the XCode Command Line Tools are installed
+  until xcode-select --print-path &> /dev/null; do
+    sleep 5
+  done
 
-# Change to the dotfiles directory
-echo -n "Changing to the $dir directory..."
-cd $dir
-echo "done"
+  print_result $? 'Install XCode Command Line Tools'
 
-#
-# Actual symlink stuff
-#
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  # Point the `xcode-select` developer directory to
+  # the appropriate directory from within `Xcode.app`
+  # https://github.com/alrra/dotfiles/issues/13
+
+  sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+  print_result $? 'Make "xcode-select" developer directory point to Xcode'
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Prompt user to agree to the terms of the Xcode license
+  # https://github.com/alrra/dotfiles/issues/10
+
+  sudo xcodebuild -license
+  print_result $? 'Agree with the XCode Command Line Tools licence'
+
+fi
+
+sudo chown $USER /usr/local
+sudo chmod -R 755 /usr/local
+
+###############################################################################
+# Symlinks to link dotfiles into ~/                                           #
+###############################################################################
 
 declare -a FILES_TO_SYMLINK=(
 
@@ -167,21 +205,17 @@ declare -a FILES_TO_SYMLINK=(
   'tmux/tmux.conf'
 )
 
-# FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin" # add in vim and the binaries
-
 # Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 
 for i in ${FILES_TO_SYMLINK[@]}; do
-  echo "Moving any existing dotfiles from ~ to $dir_backup"
-  mv ~/.${i##*/} ${dir_backup}
+  echo "Moving any existing dotfiles from ~ to $DOTFILES_BACKUP_DIR"
+  move ~/.${i##*/} ${DOTFILES_BACKUP_DIR}
 done
 
 # Backup gpg dotfiles
-mkdir -p ${dir_backup}/.gnupg
-mv ~/.gnupg/gpg.conf ${dir_backup}/.gnupg
-mv ~/.gnupg/gpg-agent.conf ${dir_backup}/.gnupg-agent
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+mkdir -p ${DOTFILES_BACKUP_DIR}/.gnupg
+move ~/.gnupg/gpg.conf ${DOTFILES_BACKUP_DIR}/.gnupg
+move ~/.gnupg/gpg-agent.conf ${DOTFILES_BACKUP_DIR}/.gnupg-agent
 
 main() {
 
@@ -218,7 +252,7 @@ main() {
   ln -s "$(pwd)/gnupg/gpg-agent.conf" ~/.gnupg/gpg-agent.conf
 
   # Copy binaries
-  ln -fs $HOME/dotfiles/bin $HOME
+  ln -fs $DOTFILES_DIR/bin $HOME
   chmod +rwx $HOME/bin/*
 }
 
@@ -226,7 +260,7 @@ install_zsh () {
   # Test to see if zshell is installed.  If it is:
   if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # Install Oh My Zsh if it isn't already present
-    if [[ ! -d $dir/oh-my-zsh/ ]]; then
+    if [[ ! -d $DOTFILES_DIR/oh-my-zsh/ ]]; then
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
@@ -255,52 +289,71 @@ install_zsh () {
   fi
 }
 
-# Package managers & packages
-
-# . "$DOTFILES_DIR/install/brew.sh"
-# . "$DOTFILES_DIR/install/npm.sh"
-
-# if [ "$(uname)" == "Darwin" ]; then
-    # . "$DOTFILES_DIR/install/brew-cask.sh"
-# fi
-
 main
+
+echo "switching to zsh, please run script again after the switch..."
 install_zsh
 
+echo -n "Creating $DOTFILES_BACKUP_DIR for backup of any existing dotfiles in ~..."
+mkdir -p $DOTFILES_BACKUP_DIR
+echo "done"
+
+# Change to the dotfiles directory
+echo -n "Changing to the $DOTFILES_DIR directory..."
+cd $DOTFILES_DIR
+echo "done"
+
+###############################################################################
+# OSX defaults                                                                #
+###############################################################################
+
+$DOTFILES_DIR/osx/set-defaults.sh
+
+###############################################################################
+# Homebrew                                                                    #
+###############################################################################
+
+$DOTFILES_DIR/install/brew.sh
+$DOTFILES_DIR/install/brew-cask.sh
+
+###############################################################################
+# Node                                                                        #
+###############################################################################
+
+$DOTFILES_DIR/install/npm.sh
 
 ###############################################################################
 # Zsh                                                                         #
 ###############################################################################
 
 # Install Zsh settings
-ln -s ~/dotfiles/zsh/themes/jose.zsh-theme $HOME/.oh-my-zsh/themes
+ln -s $DOTFILES_DIR/zsh/themes/jose.zsh-theme $HOME/.oh-my-zsh/themes
 
+# Install font used by the zsh theme
+cp -rf $DOTFILES_DIR/font/Inconsolata-dz-Powerline.otf /Library/Fonts
 
 ###############################################################################
 # Vim and neovim
 ###############################################################################
 
 # Install vim
-~/dotfiles/vim/install.sh
+$DOTFILES_DIR/vim/install.sh
 
 # Configure installation
-ln -fs ~/dotfiles/vim/vimfiles ~/.config/nvim
-ln -fs ~/dotfiles/vim/vimfiles ~/.vim
-ln -fs ~/dotfiles/vim/vimrc ~/.config/nvim/init.vim
-ln -fs ~/dotfiles/vim/vimrc ~/.vimrc
+ln -fs $DOTFILES_DIR/vim/vimfiles ~/.config/nvim
+ln -fs $DOTFILES_DIR/vim/vimfiles ~/.vim
+ln -fs $DOTFILES_DIR/vim/vimrc ~/.config/nvim/init.vim
+ln -fs $DOTFILES_DIR/vim/vimrc ~/.vimrc
 
 nvim +PluginInstall +qall
-
 
 ###############################################################################
 # Ruby
 ###############################################################################
-
-gem install bundler
-gem install lolcat
+$DOTFILES_DIR/install/ruby.sh
 
 ###############################################################################
-# tmuxinator
+# Tmuxinator
 ###############################################################################
 
 gem install tmuxinator
