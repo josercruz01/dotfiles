@@ -1,13 +1,12 @@
 #!/bin/bash
 
-
 ###############################################################################
 # Variable declaration
 ###############################################################################
 
 export DOTFILES_DIR
 export DOTFILES_BACKUP_DIR
-DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DOTFILES_DIR=~/dotfiles
 DOTFILES_BACKUP_DIR=~/dotfiles_old
 
 ###############################################################################
@@ -328,32 +327,30 @@ $DOTFILES_DIR/install/npm.sh
 ###############################################################################
 
 # Install Zsh settings
-ln -s ~/dotfiles/zsh/themes/jose.zsh-theme $HOME/.oh-my-zsh/themes
+ln -s $DOTFILES_DIR/zsh/themes/jose.zsh-theme $HOME/.oh-my-zsh/themes
 
+# Install font used by the zsh theme
+cp -rf $DOTFILES_DIR/font/Inconsolata-dz-Powerline.otf /Library/Fonts
 
 ###############################################################################
 # Vim and neovim
 ###############################################################################
 
 # Install vim
-~/dotfiles/vim/install.sh
+$DOTFILES_DIR/vim/install.sh
 
 # Configure installation
-ln -fs ~/dotfiles/vim/vimfiles ~/.config/nvim
-ln -fs ~/dotfiles/vim/vimfiles ~/.vim
-ln -fs ~/dotfiles/vim/vimrc ~/.config/nvim/init.vim
-ln -fs ~/dotfiles/vim/vimrc ~/.vimrc
+ln -fs $DOTFILES_DIR/vim/vimfiles ~/.config/nvim
+ln -fs $DOTFILES_DIR/vim/vimfiles ~/.vim
+ln -fs $DOTFILES_DIR/vim/vimrc ~/.config/nvim/init.vim
+ln -fs $DOTFILES_DIR/vim/vimrc ~/.vimrc
 
 nvim +PluginInstall +qall
 
 ###############################################################################
 # Ruby
 ###############################################################################
-
-# Install latest stable ruby version
-rbenv install `rbenv install -l | grep -v - | tail -1`
-gem install bundler
-gem install lolcat
+$DOTFILES_DIR/install/ruby.sh
 
 ###############################################################################
 # Tmuxinator
