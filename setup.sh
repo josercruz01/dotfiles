@@ -1,13 +1,17 @@
 #!/bin/bash
 
-# This symlinks all the dotfiles to ~/
-# It also symlinks ~/bin for easy updating
+###############################################################################
+# Variable declaration
+###############################################################################
 
-# This is safe to run multiple times and will prompt you about anything unclear
+export DOTFILES_DIR
+export DOTFILES_BACKUP_DIR
+DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DOTFILES_BACKUP_DIR=~/dotfiles_old
 
-#
-# Utils
-#
+###############################################################################
+# Helper functions
+###############################################################################
 
 answer_is_yes() {
   [[ "$REPLY" =~ ^[Yy]$ ]] \
@@ -120,24 +124,82 @@ print_success() {
   printf "\e[0;32m  [✔] $1\e[0m\n"
 }
 
+###############################################################################
+# Backup old machine's dotfiles                                               #
+###############################################################################
 
-dir=~/dotfiles                        # dotfiles directory
-dir_backup=~/dotfiles_old             # old dotfiles backup directory
-
-# Get current dir (so run this script from anywhere)
-
-export DOTFILES_DIR
-DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Create dotfiles_old in homedir
-echo -n "Creating $dir_backup for backup of any existing dotfiles in ~..."
-mkdir -p $dir_backup
+echo -n "Creating $DOTFILES_BACKUP_DIR for backup of any existing dotfiles in ~..."
+mkdir -p $DOTFILES_BACKUP_DIR
 echo "done"
 
 # Change to the dotfiles directory
-echo -n "Changing to the $dir directory..."
-cd $dir
+echo -n "Changing to the $DOTFILES_DIR directory..."
+cd $DOTFILES_DIR
 echo "done"
+
+###############################################################################
+# XCode Command Line Tools                                                    #
+###############################################################################
+
+if ! xcode-select --print-path &> /dev/null; then
+
+  # Prompt user to install the XCode Command Line Tools
+  xcode-select --install &> /dev/null
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Wait until the XCode Command Line Tools are installed
+  until xcode-select --print-path &> /dev/null; do
+    sleep 5
+  done
+
+  print_result $? 'Install XCode Command Line Tools'
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Point the `xcode-select` developer directory to
+  # the appropriate directory from within `Xcode.app`
+  # https://github.com/alrra/dotfiles/issues/13
+
+  sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+  print_result $? 'Make "xcode-select" developer directory point to Xcode'
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Prompt user to agree to the terms of the Xcode license
+  # https://github.com/alrra/dotfiles/issues/10
+
+  sudo xcodebuild -license
+  print_result $? 'Agree with the XCode Command Line Tools licence'
+
+fi
+
+sudo chown $USER /usr/local
+sudo mod -R 755 /usr/local
+
+###############################################################################
+# OSX defaults                                                                #
+# https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
+###############################################################################
+
+$DOTFILES_DIR/osx/set-defaults.sh
+
+###############################################################################
+# Homebrew                                                                    #
+###############################################################################
+
+$DOTFILES_DIR/install/brew.sh
+$DOTFILES_DIR/install/brew-cask.sh
+
+###############################################################################
+# Node                                                                        #
+###############################################################################
+
+$DOTFILES_DIR/install/npm.sh
+
+###############################################################################
+# Symlinks to link dotfiles into ~/                                           #
+###############################################################################
 
 #
 # Actual symlink stuff
@@ -172,14 +234,14 @@ declare -a FILES_TO_SYMLINK=(
 # Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 
 for i in ${FILES_TO_SYMLINK[@]}; do
-  echo "Moving any existing dotfiles from ~ to $dir_backup"
-  mv ~/.${i##*/} ${dir_backup}
+  echo "Moving any existing dotfiles from ~ to $DOTFILES_BACKUP_DIR"
+  mv ~/.${i##*/} ${DOTFILES_BACKUP_DIR}
 done
 
 # Backup gpg dotfiles
-mkdir -p ${dir_backup}/.gnupg
-mv ~/.gnupg/gpg.conf ${dir_backup}/.gnupg
-mv ~/.gnupg/gpg-agent.conf ${dir_backup}/.gnupg-agent
+mkdir -p ${DOTFILES_BACKUP_DIR}/.gnupg
+mv ~/.gnupg/gpg.conf ${DOTFILES_BACKUP_DIR}/.gnupg
+mv ~/.gnupg/gpg-agent.conf ${DOTFILES_BACKUP_DIR}/.gnupg-agent
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -218,7 +280,7 @@ main() {
   ln -s "$(pwd)/gnupg/gpg-agent.conf" ~/.gnupg/gpg-agent.conf
 
   # Copy binaries
-  ln -fs $HOME/dotfiles/bin $HOME
+  ln -fs $DOTFILES_DIR/bin $HOME
   chmod +rwx $HOME/bin/*
 }
 
@@ -226,7 +288,7 @@ install_zsh () {
   # Test to see if zshell is installed.  If it is:
   if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
     # Install Oh My Zsh if it isn't already present
-    if [[ ! -d $dir/oh-my-zsh/ ]]; then
+    if [[ ! -d $DOTFILES_DIR/oh-my-zsh/ ]]; then
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
