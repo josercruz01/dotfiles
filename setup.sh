@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 ###############################################################################
 # Variable declaration
 ###############################################################################
@@ -13,21 +14,24 @@ DOTFILES_BACKUP_DIR=~/dotfiles_old
 # Helper functions
 ###############################################################################
 
+move() {
+  if [ -f $1 ]; then
+    mv "${1}" "${2}" && return 0
+  fi
+  return 0
+}
+
 answer_is_yes() {
   [[ "$REPLY" =~ ^[Yy]$ ]] \
     && return 0 \
     || return 1
 }
 
-ask() {
-  print_question "$1"
-  read
-}
-
 ask_for_confirmation() {
   print_question "$1 (y/n) "
   read -n 1
   printf "\n"
+  return 0
 }
 
 ask_for_sudo() {
@@ -42,6 +46,7 @@ ask_for_sudo() {
     sleep 60
     kill -0 "$$" || exit
   done &> /dev/null &
+  return 0
 
 }
 
@@ -49,15 +54,18 @@ cmd_exists() {
   [ -x "$(command -v "$1")" ] \
     && printf 0 \
     || printf 1
+  return 0
 }
 
 execute() {
   $1 &> /dev/null
   print_result $? "${2:-$1}"
+  return 0
 }
 
 get_answer() {
   printf "$REPLY"
+  return 0
 }
 
 get_os() {
@@ -72,6 +80,7 @@ get_os() {
   fi
 
   printf "%s" "$os"
+  return 0
 
 }
 
@@ -93,21 +102,25 @@ mkd() {
       execute "mkdir -p $1" "$1"
     fi
   fi
+  return 0
 }
 
 print_error() {
   # Print output in red
   printf "\e[0;31m  [✖] $1 $2\e[0m\n"
+  return 0
 }
 
 print_info() {
   # Print output in purple
   printf "\n\e[0;35m $1\e[0m\n\n"
+  return 0
 }
 
 print_question() {
   # Print output in yellow
   printf "\e[0;33m  [?] $1\e[0m"
+  return 0
 }
 
 print_result() {
@@ -117,25 +130,14 @@ print_result() {
 
   [ "$3" == "true" ] && [ $1 -ne 0 ] \
     && exit
+  return 0
 }
 
 print_success() {
   # Print output in green
   printf "\e[0;32m  [✔] $1\e[0m\n"
+  return 0
 }
-
-###############################################################################
-# Backup old machine's dotfiles                                               #
-###############################################################################
-
-echo -n "Creating $DOTFILES_BACKUP_DIR for backup of any existing dotfiles in ~..."
-mkdir -p $DOTFILES_BACKUP_DIR
-echo "done"
-
-# Change to the dotfiles directory
-echo -n "Changing to the $DOTFILES_DIR directory..."
-cd $DOTFILES_DIR
-echo "done"
 
 ###############################################################################
 # XCode Command Line Tools                                                    #
@@ -175,36 +177,11 @@ if ! xcode-select --print-path &> /dev/null; then
 fi
 
 sudo chown $USER /usr/local
-sudo mod -R 755 /usr/local
-
-###############################################################################
-# OSX defaults                                                                #
-# https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
-###############################################################################
-
-$DOTFILES_DIR/osx/set-defaults.sh
-
-###############################################################################
-# Homebrew                                                                    #
-###############################################################################
-
-$DOTFILES_DIR/install/brew.sh
-$DOTFILES_DIR/install/brew-cask.sh
-
-###############################################################################
-# Node                                                                        #
-###############################################################################
-
-$DOTFILES_DIR/install/npm.sh
+sudo chmod -R 755 /usr/local
 
 ###############################################################################
 # Symlinks to link dotfiles into ~/                                           #
 ###############################################################################
-
-#
-# Actual symlink stuff
-#
-
 
 declare -a FILES_TO_SYMLINK=(
 
@@ -229,21 +206,17 @@ declare -a FILES_TO_SYMLINK=(
   'tmux/tmux.conf'
 )
 
-# FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin" # add in vim and the binaries
-
 # Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 
 for i in ${FILES_TO_SYMLINK[@]}; do
   echo "Moving any existing dotfiles from ~ to $DOTFILES_BACKUP_DIR"
-  mv ~/.${i##*/} ${DOTFILES_BACKUP_DIR}
+  move ~/.${i##*/} ${DOTFILES_BACKUP_DIR}
 done
 
 # Backup gpg dotfiles
 mkdir -p ${DOTFILES_BACKUP_DIR}/.gnupg
-mv ~/.gnupg/gpg.conf ${DOTFILES_BACKUP_DIR}/.gnupg
-mv ~/.gnupg/gpg-agent.conf ${DOTFILES_BACKUP_DIR}/.gnupg-agent
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+move ~/.gnupg/gpg.conf ${DOTFILES_BACKUP_DIR}/.gnupg
+move ~/.gnupg/gpg-agent.conf ${DOTFILES_BACKUP_DIR}/.gnupg-agent
 
 main() {
 
@@ -317,18 +290,38 @@ install_zsh () {
   fi
 }
 
-# Package managers & packages
-
-# . "$DOTFILES_DIR/install/brew.sh"
-# . "$DOTFILES_DIR/install/npm.sh"
-
-# if [ "$(uname)" == "Darwin" ]; then
-    # . "$DOTFILES_DIR/install/brew-cask.sh"
-# fi
-
 main
+
+echo "switching to zsh, please run script again after the switch..."
 install_zsh
 
+echo -n "Creating $DOTFILES_BACKUP_DIR for backup of any existing dotfiles in ~..."
+mkdir -p $DOTFILES_BACKUP_DIR
+echo "done"
+
+# Change to the dotfiles directory
+echo -n "Changing to the $DOTFILES_DIR directory..."
+cd $DOTFILES_DIR
+echo "done"
+
+###############################################################################
+# OSX defaults                                                                #
+###############################################################################
+
+$DOTFILES_DIR/osx/set-defaults.sh
+
+###############################################################################
+# Homebrew                                                                    #
+###############################################################################
+
+$DOTFILES_DIR/install/brew.sh
+$DOTFILES_DIR/install/brew-cask.sh
+
+###############################################################################
+# Node                                                                        #
+###############################################################################
+
+$DOTFILES_DIR/install/npm.sh
 
 ###############################################################################
 # Zsh                                                                         #
@@ -353,16 +346,17 @@ ln -fs ~/dotfiles/vim/vimrc ~/.vimrc
 
 nvim +PluginInstall +qall
 
-
 ###############################################################################
 # Ruby
 ###############################################################################
 
+# Install latest stable ruby version
+rbenv install `rbenv install -l | grep -v - | tail -1`
 gem install bundler
 gem install lolcat
 
 ###############################################################################
-# tmuxinator
+# Tmuxinator
 ###############################################################################
 
 gem install tmuxinator
