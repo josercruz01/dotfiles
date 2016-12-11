@@ -25,5 +25,14 @@ pr() {
 }
 
 function killport() {
-  kill -9 `lsof -i tcp:$1 | tail -1 | awk '{ print $2;}'`
+  app=`lsof -i tcp:$1 | tail -1`
+  pid=`echo $app | awk '{ print $2;}'`
+  if [ -z "$pid" ];then
+    echo "No process found running on port $1"
+  else
+    echo $app
+    echo "killing process with PID=$pid"
+    kill -9 $pid
+    echo "done"
+  fi
 }
