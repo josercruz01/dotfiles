@@ -100,3 +100,6 @@ alias muxs="mux start"
 
 # sublime
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+
+# git-number
+alias gn='git number --column'
