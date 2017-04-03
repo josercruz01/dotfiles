@@ -92,9 +92,9 @@ fi
 # https://github.com/neovim/neovim/wiki/FAQ#my-ctrl-h-mapping-doesnt-work
 # see: https://github.com/neovim/neovim/issues/2048
 # Fixes problem with C-h and vim-tmux-navigator
-infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-tic $TERM.ti
-rm -rf $TERM.ti
+# infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+# tic $TERM.ti
+# rm -rf $TERM.ti
 
 
 # fortune
